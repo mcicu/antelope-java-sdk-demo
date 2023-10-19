@@ -51,11 +51,6 @@
             <artifactId>eosio-java-rpc-provider</artifactId>
             <version>1.0.0</version>
         </dependency>
-        <dependency>
-            <groupId>one.block</groupId>
-            <artifactId>eosiojavaandroidabieosserializationprovider</artifactId>
-            <version>1.0.0</version>
-        </dependency>
 
         <dependency>
             <groupId>one.block</groupId>

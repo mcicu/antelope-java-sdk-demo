@@ -1,0 +1,6 @@
+Network: Telos Testnet
+account: cicutestleap
+Explorer: https://explorer-test.telos.net/account/cicutestleap
+
+Public key: EOS8HTG9k6LP6nqzGBix6CoWhH8M9nFoiyfu1Z8hsPMe1VbQnv5BA
+Private key: 5JYKemgGEbA9CMgiZ7vuB36VcQrWGHfPyBcJbM2YQMqnrZwumU2

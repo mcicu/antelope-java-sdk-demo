@@ -35,7 +35,7 @@ public class DemoController {
 
     @GetMapping(path = "/info", produces = "application/json")
     public GetInfoResponse blockchainInfo() throws Exception {
-        IRPCProvider rpcProvider = new EosioJavaRpcProviderImpl("https://jungle3.cryptolions.io:443");
+        IRPCProvider rpcProvider = new EosioJavaRpcProviderImpl("https://telos.testnet.eosdublin.io");
         ISerializationProvider serializationProvider = new AbiEosSerializationProviderImpl();
 
         return rpcProvider.getInfo();
@@ -43,7 +43,7 @@ public class DemoController {
 
     @GetMapping(path = "/abi/{accountName}", produces = "application/json")
     public GetRawAbiResponse getRawAbi(@PathVariable("accountName") String accountName) throws Exception {
-        IRPCProvider rpcProvider = new EosioJavaRpcProviderImpl("https://jungle3.cryptolions.io:443");
+        IRPCProvider rpcProvider = new EosioJavaRpcProviderImpl("https://telos.testnet.eosdublin.io");
         ISerializationProvider serializationProvider = new AbiEosSerializationProviderImpl();
 
         GetRawAbiRequest rawAbiRequest = new GetRawAbiRequest(accountName);
@@ -53,12 +53,12 @@ public class DemoController {
     @GetMapping(path = "/transaction")
     public String testTransaction() throws Exception {
 
-        IRPCProvider rpcProvider = new EosioJavaRpcProviderImpl("https://jungle3.cryptolions.io:443");
+        IRPCProvider rpcProvider = new EosioJavaRpcProviderImpl("https://telos.testnet.eosdublin.io");
         ISerializationProvider serializationProvider = new AbiEosSerializationProviderImpl();
         IABIProvider abiProvider = new ABIProviderImpl(rpcProvider, serializationProvider);
         SoftKeySignatureProviderImpl signatureProvider = new SoftKeySignatureProviderImpl();
 
-        String privateKey = "5JnfgNKPFH6uprULNzE4Qj4rF4oY9n2PtppDKm7rLuqcGz8PQ3r";
+        String privateKey = "5JYKemgGEbA9CMgiZ7vuB36VcQrWGHfPyBcJbM2YQMqnrZwumU2";
         signatureProvider.importKey(privateKey);
 
         TransactionSession session = new TransactionSession(
@@ -83,14 +83,14 @@ public class DemoController {
         processor.setTransactionConfig(transactionConfig);
 
         String jsonData = "{\n" +
-                "\"from\": \"cicotester12\",\n" +
-                "\"to\": \"eosbarcelona\",\n" +
-                "\"quantity\": \"1.0000 EOS\",\n" +
+                "\"from\": \"cicutestleap\",\n" +
+                "\"to\": \"cicumihai222\",\n" +
+                "\"quantity\": \"1.0000 TLOS\",\n" +
                 "\"memo\" : \"Test transfer using java sdk\"\n" +
                 "}";
 
         List<Authorization> authorizations = new ArrayList<>();
-        authorizations.add(new Authorization("cicotester12", "owner"));
+        authorizations.add(new Authorization("cicutestleap", "active"));
         List<Action> actions = new ArrayList<>();
         actions.add(new Action("eosio.token", "transfer", authorizations, jsonData));
 

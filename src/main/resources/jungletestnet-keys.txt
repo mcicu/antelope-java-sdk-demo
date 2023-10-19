@@ -1,5 +1,0 @@
-Description EOS Token Sale Claim Key 
-Public key EOS6C9FYBrtwNpozL5yEb3pikzQeGvXn78ikjtV5oKXMMSuDB7JYR 
-Private key 5JnfgNKPFH6uprULNzE4Qj4rF4oY9n2PtppDKm7rLuqcGz8PQ3r
-account cicotester12
-
