@@ -33,29 +33,31 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- eosio libraries -->
+        <!-- antelope libraries -->
         <dependency>
-            <groupId>io.antelope</groupId>
-            <artifactId>java-sdk</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>io.github.mcicu</groupId>
+            <artifactId>antelope-java-sdk</artifactId>
+            <version>0.0.1</version>
         </dependency>
 
         <dependency>
-            <groupId>io.antelope</groupId>
-            <artifactId>java-softkey-signature-provider</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>io.github.mcicu</groupId>
+            <artifactId>antelope-java-softkey-signature-provider</artifactId>
+            <version>0.0.1</version>
         </dependency>
 
         <dependency>
-            <groupId>io.antelope</groupId>
-            <artifactId>java-rpc-provider</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>io.github.mcicu</groupId>
+            <artifactId>antelope-java-rpc-provider</artifactId>
+            <version>0.0.1</version>
         </dependency>
 
+        <!-- make sure to use the proper abieos-serialization-provider library for your platform -->
+        <!-- currently available platforms: linux, darwin; (windows is not supported so far)-->
         <dependency>
-            <groupId>io.antelope</groupId>
-            <artifactId>java-abieos-serialization-provider</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>io.github.mcicu</groupId>
+            <artifactId>antelope-java-abieos-serialization-provider-linux</artifactId>
+            <version>0.0.1</version>
         </dependency>
     </dependencies>
 
