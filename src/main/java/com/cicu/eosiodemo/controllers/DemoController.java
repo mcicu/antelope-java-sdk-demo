@@ -234,4 +234,81 @@ public class DemoController {
 
         return "Transaction Completed - Account created for " + newAccountName;
     }
+
+    @GetMapping(path = "/stake-net-and-cpu")
+    public String stakeNetAndCpu() throws Exception {
+
+        // THIS CODE IS FOR DEMO PURPOSES, don't copy-paste into production
+
+        IRPCProvider rpcProvider = new EosioJavaRpcProviderImpl("https://telos.testnet.eosdublin.io");
+        ISerializationProvider serializationProvider = new AbiEosSerializationProviderImpl();
+        IABIProvider abiProvider = new ABIProviderImpl(rpcProvider, serializationProvider);
+        SoftKeySignatureProviderImpl signatureProvider = new SoftKeySignatureProviderImpl();
+
+        String privateKey = "5JYKemgGEbA9CMgiZ7vuB36VcQrWGHfPyBcJbM2YQMqnrZwumU2";
+        signatureProvider.importKey(privateKey);
+
+        TransactionSession session = new TransactionSession(
+                serializationProvider,
+                rpcProvider,
+                abiProvider,
+                signatureProvider
+        );
+
+        TransactionProcessor processor = session.getTransactionProcessor();
+
+        // Now the TransactionConfig can be altered, if desired
+        TransactionConfig transactionConfig = processor.getTransactionConfig();
+
+        // Use blocksBehind (default 3) the current head block to calculate TAPOS
+        transactionConfig.setUseLastIrreversible(false);
+        // Set the expiration time of transactions 600 seconds later than the timestamp
+        // of the block used to calculate TAPOS
+        transactionConfig.setExpiresSeconds(600);
+
+        // Update the TransactionProcessor with the config changes
+        processor.setTransactionConfig(transactionConfig);
+
+        List<Authorization> authorizations = new ArrayList<>();
+        authorizations.add(new Authorization("cicutestleap", "active"));
+
+        //CREATE EOSIO::DELEGATEBW ACTION
+        String jsonDataStakeResources = "{\n" +
+                "                \"from\": \"cicutestleap\",\n" +
+                "                \"receiver\": \"cicumihai222\",\n" +
+                "                \"stake_net_quantity\": \"1.0000 TLOS\",\n" +
+                "                \"stake_cpu_quantity\": \"1.0000 TLOS\",\n" +
+                "                \"transfer\": true\n" +
+                "            }";
+
+
+        Action stakeResourcesAction = new Action("eosio", "delegatebw", authorizations, jsonDataStakeResources);
+
+        List<Action> actions = new ArrayList<>();
+        actions.add(stakeResourcesAction);
+        processor.prepare(actions);
+
+        try {
+            SendTransactionResponse sendTransactionResponse = processor.signAndBroadcast();
+            ArrayList<Object> actionReturnValues = sendTransactionResponse.getActionValues();
+        } catch (TransactionSignAndBroadCastError error) {
+            //errors are wrapped at this point, we need to dig for specific causes (only for demo)
+            if (error.getCause() instanceof TransactionSendTransactionError) {
+                TransactionSendTransactionError sendTransactionError = (TransactionSendTransactionError) error.getCause();
+                if (sendTransactionError.getCause() instanceof SendTransactionRpcError) {
+                    SendTransactionRpcError sendTransactionRpcError = (SendTransactionRpcError) sendTransactionError.getCause();
+                    if (sendTransactionRpcError.getCause() instanceof EosioJavaRpcProviderCallError) {
+                        EosioJavaRpcProviderCallError eosioJavaRpcProviderCallError = (EosioJavaRpcProviderCallError) sendTransactionRpcError.getCause();
+                        RPCResponseError rpcResponseError = eosioJavaRpcProviderCallError.getRpcResponseError();
+                        return objectMapper.writeValueAsString(rpcResponseError);
+                    }
+                }
+            }
+
+            //root cause not solved above, just throw back the error (only for demo)
+            throw error;
+        }
+
+        return "Transaction Completed - Resources stacked";
+    }
 }
